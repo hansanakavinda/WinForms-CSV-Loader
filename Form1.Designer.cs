@@ -94,9 +94,9 @@
             // 
             // loadingBar
             // 
-            loadingBar.Location = new Point(15, 73);
+            loadingBar.Location = new Point(42, 73);
             loadingBar.Name = "loadingBar";
-            loadingBar.Size = new Size(633, 29);
+            loadingBar.Size = new Size(576, 29);
             loadingBar.Style = ProgressBarStyle.Marquee;
             loadingBar.TabIndex = 1;
             // 

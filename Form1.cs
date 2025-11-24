@@ -87,6 +87,10 @@ namespace WinFormsApp1
                 // Use async loader method with cancellation and progress
                 var dataTable = await loader.LoadAsync(path, progress, _cancellationTokenSource.Token);
 
+                // Ensure progress bar reaches 100% and is visible
+                UpdateProgress(100);
+                await Task.Delay(300); // Brief delay to show completion
+
                 // Dispose previous DataTable
                 SetDataSource(dataTable);
 
@@ -166,7 +170,22 @@ namespace WinFormsApp1
                 return;
             }
 
-            loadingBar.Value = Math.Min(percentage, 100);
+            int value = Math.Min(percentage, 100);
+            
+            // Windows ProgressBar visual bug workaround
+            if (value == 100)
+            {
+                // Set to max+1 then back to 100 to force full render
+                loadingBar.Maximum = 101;
+                loadingBar.Value = 101;
+                loadingBar.Maximum = 100;
+                loadingBar.Value = 100;
+            }
+            else
+            {
+                loadingBar.Value = value;
+            }
+            
             label1.Text = $"Loading CSV file... {percentage}%";
         }
 

@@ -99,6 +99,9 @@ namespace WinFormsApp1.DataLoaders
                         }
                     }
 
+                    // Report final reading progress before post-processing
+                    progress?.Report(95);
+
                     if (_removeEmptyRows)
                         RemoveEmptyRows(dataTable);
 
