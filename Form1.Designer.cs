@@ -31,6 +31,7 @@
             selectFileButton = new Button();
             dataGridView1 = new DataGridView();
             loadingPanel = new Panel();
+            cancelButton = new Button();
             label1 = new Label();
             loadingBar = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -62,6 +63,7 @@
             // loadingPanel
             // 
             loadingPanel.Anchor = AnchorStyles.None;
+            loadingPanel.Controls.Add(cancelButton);
             loadingPanel.Controls.Add(label1);
             loadingPanel.Controls.Add(loadingBar);
             loadingPanel.Location = new Point(81, 397);
@@ -70,6 +72,16 @@
             loadingPanel.Name = "loadingPanel";
             loadingPanel.Size = new Size(664, 127);
             loadingPanel.TabIndex = 3;
+            // 
+            // cancelButton
+            // 
+            cancelButton.Location = new Point(615, 23);
+            cancelButton.Name = "cancelButton";
+            cancelButton.Size = new Size(33, 29);
+            cancelButton.TabIndex = 2;
+            cancelButton.Text = "X";
+            cancelButton.UseVisualStyleBackColor = true;
+            cancelButton.Click += cancelButton_Click;
             // 
             // label1
             // 
@@ -82,9 +94,9 @@
             // 
             // loadingBar
             // 
-            loadingBar.Location = new Point(44, 73);
+            loadingBar.Location = new Point(15, 73);
             loadingBar.Name = "loadingBar";
-            loadingBar.Size = new Size(569, 29);
+            loadingBar.Size = new Size(633, 29);
             loadingBar.Style = ProgressBarStyle.Marquee;
             loadingBar.TabIndex = 1;
             // 
@@ -114,5 +126,6 @@
         private Panel loadingPanel;
         private ProgressBar loadingBar;
         private Label label1;
+        private Button cancelButton;
     }
 }
