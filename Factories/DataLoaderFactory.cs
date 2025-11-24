@@ -19,9 +19,8 @@ namespace WinFormsApp1.Factories
 
         private void RegisterDefaultLoaders()
         {
-            RegisterLoader(new CsvDataLoader());
-            // Future: RegisterLoader(new ExcelDataLoader());
-            // Future: RegisterLoader(new JsonDataLoader());
+            RegisterLoader(new ExcelDataLoader(), allowOverride: false);
+            RegisterLoader(new CsvDataLoader(), allowOverride: false);
         }
 
         /// <summary>

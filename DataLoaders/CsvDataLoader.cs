@@ -9,31 +9,17 @@ namespace WinFormsApp1.DataLoaders
     /// <summary>
     /// CSV file data loader implementation using CsvHelper
     /// </summary>
-    public class CsvDataLoader : IDataLoader
+    public class CsvDataLoader : BaseDataLoader
     {
-        private readonly bool _removeEmptyRows;
-
-        public CsvDataLoader(bool removeEmptyRows = true)
+        public CsvDataLoader(bool removeEmptyRows = true) : base(removeEmptyRows)
         {
-            _removeEmptyRows = removeEmptyRows;
         }
 
-        public string[] SupportedExtensions => new[] { ".csv" };
+        public override string[] SupportedExtensions => new[] { ".csv" };
 
-        public string FileTypeDescription => "CSV Files";
+        public override string FileTypeDescription => "CSV Files";
 
-        public DataTable Load(string path)
-        {
-            // Synchronous wrapper for interface compatibility
-            return LoadAsync(path, null, CancellationToken.None).GetAwaiter().GetResult();
-        }
-
-        public DataTable Load(Stream stream)
-        {
-            throw new NotSupportedException("Stream loading is not supported. Use file path loading instead.");
-        }
-
-        public async Task<DataTable> LoadAsync(string path, IProgress<int>? progress = null, CancellationToken cancellationToken = default)
+        public override async Task<DataTable> LoadAsync(string path, IProgress<int>? progress = null, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new ArgumentException("File path cannot be null or empty", nameof(path));
@@ -122,33 +108,5 @@ namespace WinFormsApp1.DataLoaders
             }
         }
 
-        public bool CanLoad(string path)
-        {
-            if (string.IsNullOrWhiteSpace(path))
-                return false;
-
-            if (!File.Exists(path))
-                return false;
-
-            var extension = Path.GetExtension(path);
-            return SupportedExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
-        }
-
-        private void RemoveEmptyRows(DataTable dataTable)
-        {
-            var emptyRows = dataTable.AsEnumerable()
-                .Where(row => row.ItemArray.All(field =>
-                    field == null ||
-                    field is DBNull ||
-                    string.IsNullOrWhiteSpace(field.ToString())))
-                .ToList();
-
-            foreach (var row in emptyRows)
-            {
-                dataTable.Rows.Remove(row);
-            }
-
-            dataTable.AcceptChanges();
-        }
     }
 }
